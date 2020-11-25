@@ -1,4 +1,4 @@
 # Java
 My humble java collection
 
-I structured these files by using Maven projects in Eclipse IDE
+I built this file structure by using Maven projects in Eclipse IDE
