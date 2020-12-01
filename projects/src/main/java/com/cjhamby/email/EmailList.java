@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class EmailList {
-	SortedSet<String> myEmails;
+	private SortedSet<String> myEmails;
 	
 	public EmailList() {
 		myEmails = new TreeSet<String>();
