@@ -37,10 +37,14 @@ public class WillItSerialize {
 		/* 
 		 * TestClass1 implements serializable
 		 * TestClass2 does not, and thus is NOT serializable
+		 * TestClass3 shows how to serialize nested classes
+		 * 
 		 */
 		TestClass1 testObject1 = new TestClass1();
 		TestClass2 testObject2 = new TestClass2();
+		TestClass3 testObject3 = new TestClass3();
 		
+		/* --- serialize objects --- */
 		try {
 			/*
 			 * To implement serialization, use ObjectOutputStream
@@ -55,8 +59,12 @@ public class WillItSerialize {
 			s.writeObject(testObject1);						/* works */
 			System.out.println("\tSerialized");
 			
-			System.out.print("Object 2\t" + testObject2);
-			s.writeObject(testObject2);						/* fails */
+//			System.out.print("Object 2\t" + testObject2);
+//			s.writeObject(testObject2);						/* fails */
+//			System.out.println("\tSerialized");
+			
+			System.out.print("Object 3\t" + testObject3);
+			s.writeObject(testObject3);						/* fails */
 			System.out.println("\tSerialized");
 			
 			s.close();
@@ -65,7 +73,7 @@ public class WillItSerialize {
 			System.out.println("\tA Serialization Error Occurred");
 		}
 		
-		
+		/* --- deserialize objects --- */
 		try {
 			/* 
 			 * Serialized objects are stored as bytes in a file
@@ -84,15 +92,29 @@ public class WillItSerialize {
 			System.out.println(objectIn);
 			
 			/* this will throw an exception */
-			System.out.print("Object 2 Read\t");
-			TestClass2 object2In = (TestClass2)s2.readObject();
-			System.out.println(object2In);
+//			System.out.print("Object 2 Read\t");
+//			TestClass2 object2In = (TestClass2)s2.readObject();
+//			System.out.println(object2In);
+			
+			/* 
+			 * Some modification is needed in the TestClass3.toString() method
+			 * 
+			 * Since one of the nested class instances is transient,
+			 * it is not included with the serialized data
+			 * So, when we create an object with the serialized data,
+			 * the nested class object is never created
+			 */
+			System.out.print("Object 3 Read\t");
+			TestClass3 object3In = (TestClass3)s2.readObject();
+			System.out.println(object3In);
 			
 		} catch (Exception e) {
 			// TODO: handle exception
-			System.out.println("Error occurred reading serialization");
+			System.out.println("Error occurred reading serialization" + e);
 		}
 	}
+	
+	
 	
 	/* demonstrates how to write to a file with a BufferedWriter */
 	public static void fileWriteExample() {
@@ -119,6 +141,7 @@ public class WillItSerialize {
 			System.out.println("Error " + e);
 		}
 	}
+	
 	
 	
 	/* demonstrates reading a file with a BufferedReader */
