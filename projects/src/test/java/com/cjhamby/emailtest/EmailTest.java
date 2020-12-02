@@ -11,6 +11,7 @@ public class EmailTest {
 		myList.addEmail("ann@freemail.com");
 		myList.addEmail("carl@zmail.com");
 		myList.addEmail("bill@goodemail.org");
+		myList.addEmail("john.smith@uniquenames.io");
 		
 		
 		/* invalid email tests */

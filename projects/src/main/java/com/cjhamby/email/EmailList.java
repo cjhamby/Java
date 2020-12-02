@@ -49,14 +49,11 @@ public class EmailList {
 	
 	/* 
 	 * Valid emails have the form <name>@<domain>.<domain> 
-	 * 
-	 * the characters '@' and '.' are both prohibited anywhere else
-	 * this is an easily-breakable check, for which I hope I am not graded
+	 * as per classroom requirement, only allow leters, numbers, and '_' '-' 
 	 * :-)
 	 */
 	public boolean isEmail(String e) {
-		
-		Pattern p = Pattern.compile("[^@.]+@[^@.]+\\.[^@.]+");
+		Pattern p = Pattern.compile("[\\w|.|_|-]+@[\\w|_|.|-]+\\.\\w+");
 		Matcher m = p.matcher(e);
 		if(m.matches()) {
 			return true;
