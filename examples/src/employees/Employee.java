@@ -1,5 +1,7 @@
 package employees;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Employee implements Comparable<Employee>{
 	private int empId;
@@ -47,12 +49,6 @@ public class Employee implements Comparable<Employee>{
 	}
 	
 	@Override
-	public String toString() {
-		// TODO Auto-generated method stub
-		return ("Employee " + this.empName + "\tID Number " + this.empId);
-	}
-	
-	@Override
 	public int compareTo(Employee o) {
 		// TODO Auto-generated method stub
 		return (o.getEmpId() - this.getEmpId());
@@ -60,11 +56,28 @@ public class Employee implements Comparable<Employee>{
 	
 	@Override
 	public boolean equals(Object obj) {
-		// TODO Auto-generated method stub
 		if(this == obj)	{
 			return true;
 		}
 		
 		return (compareTo((Employee)obj) == 0);
+	}
+	
+	public static boolean validateName(String n) {
+		return (n.length() > 0);
+	}
+	
+	public static boolean validateEmail(String e) {
+		Pattern p = Pattern.compile("[\\w._-]+@[\\w_.-]+\\.\\w+");
+		Matcher m = p.matcher(e);
+		return (m.matches());
+	}
+	
+	public static boolean validateState(String s) {
+		return (s.length() > 0 && s.length() < 3);
+	}
+	
+	public static boolean validateIncome(int i) {
+		return (i>0 && i<100000000);
 	}
 }

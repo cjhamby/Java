@@ -1,18 +1,24 @@
 package employees;
 
-public class Student {
+public class Student implements Comparable<Student>{
+	private int id;
 	private String name;
 	private String city;
-	private int grade;
-	public Student() {
-		System.out.println("student created");
-	}
+	private String subject;
 	
-	public Student(String name, String city, int grade) {
+	public Student(int id, String name, String city, String subject) {
+		this.id = id;
 		this.name = name;
 		this.city = city;
-		this.grade = grade;
-		
+		this.subject = subject;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
@@ -31,16 +37,21 @@ public class Student {
 		this.city = city;
 	}
 
-	public int getGrade() {
-		return grade;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setGrade(int grade) {
-		this.grade = grade;
+	public void setSubject(String subject) {
+		this.subject = subject;
 	}
-	
+
+	@Override
+	public int compareTo(Student o) {
+		return (this.getId() - o.getId());
+	}
+
+	@Override
 	public String toString() {
-		return "Student [name=" + name + ", city=" + city + ", grade=" + grade + "]";
+		return "Student [id=" + id + ", name=" + name + ", city=" + city + ", is studying " + subject + "]";
 	}
-	
 }
