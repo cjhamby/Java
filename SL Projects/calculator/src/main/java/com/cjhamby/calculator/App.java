@@ -3,7 +3,7 @@ package com.cjhamby.calculator;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-public class Calculator {
+public class App{
 
 	private static char operator = ' '; 		/* symbol for chosen math operation */
 	private static int operation = 0;			/* input for chosen math operation */
@@ -12,9 +12,19 @@ public class Calculator {
 	private static float result = 0;			/* operation result */
 	private static boolean canCompute = true; 	/* flags invalid operations */
 	
-	private Scanner scan = new Scanner(System.in);
+	private Scanner scan = null;
 	
-	public Calculator(Scanner s) {
+	public static void main(String[] args) {
+		Scanner scan = new Scanner(System.in);
+		App calculator = new App(scan);
+		
+		while(true) {
+			calculator.run();	/* calculator will end the program */
+		}
+	}
+	
+	
+	public App(Scanner s) {
 		this.scan = s;
 	}
 	

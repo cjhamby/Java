@@ -1,9 +1,9 @@
-package com.cjhamby.emailtest;
+/* demonstrates functionality of EmailList.java */
 
-import com.cjhamby.email.EmailList;
+package com.cjhamby.email;
 
-public class EmailTest {
-
+public class App 
+{
 	public static void main(String[] args) {
 		EmailList myList = new EmailList();
 		
@@ -12,7 +12,6 @@ public class EmailTest {
 		myList.addEmail("carl@zmail.com");
 		myList.addEmail("bill@goodemail.org");
 		myList.addEmail("john.smith@uniquenames.io");
-		
 		
 		/* invalid email tests */
 		myList.addEmail("@wrongmail.com"); 
@@ -26,5 +25,6 @@ public class EmailTest {
 		
 		myList.findEmail("ann@freemail.com");	/* valid */
 		myList.findEmail("bill@freemail.com");	/* invalid */
-	}
+	
+    }
 }
