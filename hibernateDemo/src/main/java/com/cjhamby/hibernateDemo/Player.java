@@ -1,50 +1,42 @@
 package com.cjhamby.hibernateDemo;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Entity
+/*
+ * annotations are a newer way of accomplishing what the hbm file does
+ */
 
-@Table
+@Entity
+@Table(name = "player")
 public class Player {
 
-	@Id
-	private int playerId;
-	private String playerName;
-	private int age;
-	private String teamName;
-
+	
 	/*
-	 * i added the annotations according to the video tutorial:
-	 * entity, table, and id
+	 * @Id is used to identify and get a player to/from the table
+	 * 
+	 * if you wanted to generate a unique Id, you could add a second annotation
+	 * @GeneratedValue
 	 */
+	@Id
+	private int playerNum;
+	
+	// column annotation is not necessary, but can be customized
+	@Column(name = "customColName")
+	private String playerName;
+	private String teamName;
 
 	public Player() {
 
 	}
 
-	
-	public Player(int playerId, String playerName, int age, String teamName) {
-		this.playerId = playerId;
+	public Player(String playerName, int playerNum, String teamName) {
 		this.playerName = playerName;
-		this.age = age;
+		this.playerNum = playerNum;
 		this.teamName = teamName;
-	}
-
-
-	@Override
-	public String toString() {
-		return "Player [playerId=" + playerId + ", playerName=" + playerName + ", age=" + age + ", teamName=" + teamName
-				+ "]";
-	}
-
-	public int getPlayerId() {
-		return playerId;
-	}
-
-	public void setPlayerId(int playerId) {
-		this.playerId = playerId;
 	}
 
 	public String getPlayerName() {
@@ -55,12 +47,12 @@ public class Player {
 		this.playerName = playerName;
 	}
 
-	public int getAge() {
-		return age;
+	public int getPlayerNum() {
+		return playerNum;
 	}
 
-	public void setAge(int age) {
-		this.age = age;
+	public void setPlayerNum(int playerNum) {
+		this.playerNum = playerNum;
 	}
 
 	public String getTeamName() {
@@ -70,5 +62,13 @@ public class Player {
 	public void setTeamName(String teamName) {
 		this.teamName = teamName;
 	}
+
+	@Override
+	public String toString() {
+		return "Player [playerName=" + playerName + ", playerNum=" + playerNum
+				+ ", teamName=" + teamName + "]";
+	}
+
+
 
 }

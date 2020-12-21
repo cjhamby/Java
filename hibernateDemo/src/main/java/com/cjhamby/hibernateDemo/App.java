@@ -2,6 +2,7 @@ package com.cjhamby.hibernateDemo;
 
 import java.util.List;
 
+import org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -19,47 +20,75 @@ public class App
 {
     public static void main( String[] args )
     {
-    	//testH2Connection();
-        addDemo(new Player(10, "Chris", 30, "The Cary Scaries"));
-        addDemo(new Player(12, "Christopher", 31, "Gov. Cooper's Troopers"));
+    	// HibernateUtil is a static factory class, no need to instantiate
+    	HibernateUtil.createFactory();
+        addDemo(new Player("Chris", 30, "The Cary Scaries"));
+        addDemo(new Player("Christopher", 31, "Gov. Cooper's Troopers"));
         readDemo();
-        deleteDemo();
+        deleteDemo(30);
         readDemo();
     }
     
-    public static void testH2Connection() {
-    	new MyConnection().closeConnection();
-    }
     
+    /**
+     * Add a player to the database table
+     * HibernateUtil factory knows how to convert object to table
+     * 
+     * @param p1 player object to add
+     */
     public static void addDemo(Player p1) {
-    	System.out.println("Adding to table");
+    	System.out.println("\nAdding "
+    				+ p1.getPlayerName() + " (#" + p1.getPlayerNum() + ") to table");
     	Session session = HibernateUtil.getSession();
     	Transaction transaction = session.beginTransaction();
-        session.save(p1);
-        transaction.commit();
-        session.close();
+    	
+    	try {
+    		session.save(p1);
+        	transaction.commit();
+        }catch(Exception e) {
+        	System.out.println(e);
+        	System.out.println("that player already exists");
+        } finally {
+        	session.close();
+        }
     }
     
+    /**
+     * get all player objects from the table 
+     */
     public static void readDemo() {
-    	System.out.println("Reading from Player Table");
+    	System.out.println("\nReading from Player Table");
     	Session session = HibernateUtil.getSession();
-    	List<Player> data = session.createQuery("from Player").list();
+    	List<Player> data = (List<Player>)(session.createQuery("from Player").list());
     	for(Player p: data) {
     		System.out.println(p);
     	}
     	session.close();
     }
     
-    public static void deleteDemo() {
+    
+    /**
+     * delete a player from the database,
+     * using the value annotated as "id" in the Player class
+     * 
+     * @param playerId id of the player to delete
+     */
+    public static void deleteDemo(int playerId) {
     	Session session = HibernateUtil.getSession();
     	Transaction transaction = session.beginTransaction();
-    	System.out.println("Deleting Christopher from table");
+    	System.out.println("\nDeleting player id #" + playerId + " from table");
     	
     // since playerID is the hibernate ID, use it to refer to players
-    	Player temp = (Player)session.get(Player.class, 12);
-    	session.delete(temp);
-    	transaction.commit();
-    	session.close();
+    	try {
+    		Player temp = (Player)session.get(Player.class, playerId);
+    		session.delete(temp);
+    		transaction.commit();
+    		System.out.println(temp.getPlayerName() + " was removed successfully");
+    	}catch(Exception e) {
+    		System.out.println("could not delete");
+    	}finally {
+    		session.close();
+    	}
     }
     
     
