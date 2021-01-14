@@ -11,6 +11,7 @@
 This is meant to provide a starting point for JSP + Spring Boot projects<br/>
 You want to have a bit of background knowledge on each, though...
 <p>
+<a href="implicit">Tests for JSP implicit objects</a><br/>
 <a href="mynotes">Notes on MVC</a>
 <h3>How to Use JSP</h3>
 An embedded tomcat server is included in various Spring Boot Starters, such as the Spring Boot Web Starter.<br/>

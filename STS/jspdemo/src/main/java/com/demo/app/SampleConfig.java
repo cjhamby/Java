@@ -11,7 +11,12 @@ public class SampleConfig implements WebMvcConfigurer{
 	public void addViewControllers(ViewControllerRegistry registry) {
 		
 		// requests to /config will return the view "configpage"
+		registry.addViewController("/").setViewName("index");
 		registry.addViewController("/config").setViewName("configpage");
+		registry.addViewController("/mynotes").setViewName("notes");
+		registry.addViewController("/implicit").setViewName("implicit");
+		registry.addViewController("/implicit/request").setViewName("requestpage");
+		registry.addViewController("/implicit/session").setViewName("sessionpage");
 	}
 }
 

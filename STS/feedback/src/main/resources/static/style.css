@@ -1,0 +1,17 @@
+@charset "ISO-8859-1";
+
+.newFeedback {
+	border: 1px solid black;
+	padding: 20px;
+	margin: 5px;
+	width: 400px;
+	background: #EEEEEE;
+}
+
+.feedbackBox {
+	border: 1px solid black;
+	background: #DDFFEE;
+	padding: 20px;
+	margin: 5px;
+	width: 400px;
+}
