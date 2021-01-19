@@ -10,7 +10,7 @@
 </head>
 <body>
 <h1>New Task Creation</h1>
-<form:form modelAttribute="newTask" action="/addTask" method="POST">
+<form:form modelAttribute="newTask" action="/addTask" method="post">
 	Task Name 	<form:input path="taskName" type="text" /><br/>
 	Task Desc 	<form:input path="taskDesc" type="text" /><br/>
 	Start Date 	<form:input type="date" path="startDate"/><br/>

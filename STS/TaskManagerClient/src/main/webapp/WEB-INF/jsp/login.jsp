@@ -13,5 +13,6 @@ Name <input type="text" name="name"/><br/>
 Pass <input type="text" name="pass"/><br/>
 <input type="submit" value="Go"/>
 </form>
+<a href="/">return home</a>
 </body>
 </html>

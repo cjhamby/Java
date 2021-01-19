@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.server.dao.MyTask;
 import com.server.dao.MyTaskUser;
 import com.server.exception.InvalidLoginException;
+import com.server.exception.TaskNotFoundException;
 import com.server.exception.UserNotFoundException;
 import com.server.service.ServerService;
+import com.server.service.TaskService;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -26,40 +28,36 @@ public class ServerController {
 
 	@Autowired
 	private ServerService serverService;
+
+	@Autowired
+	private TaskService taskService;
 	
-	
+// 	return a list of all users
 	@GetMapping("/users")
-	public Iterable<MyTaskUser> getAllUsers() {		// return a list of all users
+	public Iterable<MyTaskUser> getAllUsers() {	
 		log.info("SERVER: getting all users");
 		return serverService.getAllUsers();
 	}
 	
-	
-	// post a new user to the repository
-	// id is not specified
+//	post a new user to the repository
+//	id is not specified
 	@PostMapping("/users")
-	public MyTaskUser postUserAtId(	@RequestBody List<String> vals) {
+	public MyTaskUser addNewUser( @RequestBody String[] vals) {
 		try {
-			log.info("SERVER: posting user: " + vals.get(0) + ", " + vals.get(1));
-			return serverService.addNewUser(vals.get(0), vals.get(1));
+			log.info("Server is creating new user");
+			String userName = vals[0];
+			String userPass = vals[1];
+			log.info("SERVER: posting user: " + userName + ", " + userPass);
+			return serverService.addNewUser(userName, userPass);
 			
 		} catch (Exception e) {
 			log.error("SERVER: could not post user");
 			return null;
 		}
 	}
-
-	// return a test user
-	@GetMapping("users/test")
-	public MyTaskUser getNewUser() {
-		return new MyTaskUser("chros", "hambug");
-	}
 	
-	@GetMapping("users/testAdd")
-	public MyTaskUser testAdd() {
-		return serverService.addNewUser("cool", "bean");
-	}
-	
+//	return the user if found,
+//	or throw exception otherwise
 	@GetMapping("users/{id}")
 	public MyTaskUser getUserById(@PathVariable("id") String id) {
 		log.info("SERVER: getting user by id");
@@ -71,32 +69,76 @@ public class ServerController {
 		}
 	}
 	
-	@PutMapping("users/{id}")
-	public void addTaskToUser(@PathVariable("id") String id, @RequestBody MyTask task) {
-		log.info("SERVER: adding task to user");
+//	return a list of tasks associated with the user
+	@GetMapping("users/{id}/tasks")
+	public List<MyTask> getUserTasks(@PathVariable("id") String id) {
+		log.info("SERVER: getting user tasks");
 		try {
-			serverService.addTaskToUser(id, task);
+			return taskService.getUserTasks(id);
 		} catch (UserNotFoundException e) {
 			log.warn("SERVER: user not found");
-		}
-	}
-
-	@DeleteMapping("users/{id}")
-	public void removeUserById(@PathVariable("id") String id) {
-		log.info("SERVER: getting user by id");
-		try {
-			serverService.removeUserById(id);
-		} catch (UserNotFoundException e) {
-			log.warn("SERVER: user not found");
+			return null;
 		}
 	}
 	
+	@PostMapping("users/{id}/tasks")
+	public MyTaskUser addTaskToUser(@PathVariable("id") String id, @RequestBody MyTask task) {
+		log.info("SERVER: adding task to user");
+		try {
+			return taskService.addTaskToUser(id, task);
+		} catch (Exception e) {
+			log.warn("SERVER: user not found");
+			return null;
+		}
+	}
+
+	@PutMapping("users/{id}/tasks")
+	public MyTaskUser modifyTaskController(@PathVariable("id") String id,
+									 @RequestBody MyTask task) {
+		log.info("updating task");
+		try {
+			return taskService.modifyTask(id, task);
+		} catch (Exception e) {
+			log.warn("SERVER: user not found");
+			return null;
+		}
+	}
+	
+	@DeleteMapping("users/{id}/tasks/{taskId}")
+	public MyTaskUser removeTaskController(@PathVariable("id") String id,
+									@PathVariable("taskId") String taskId) {
+		log.info("removing task");
+		try {
+			return taskService.removeTaskFromUser(id, taskId);
+		} catch (UserNotFoundException e) {
+			log.warn("SERVER: user not found");
+			return null;
+		} catch (TaskNotFoundException e) {
+			log.warn("SERVER: task not found");
+			return null;
+		} catch (Exception e) {
+			System.out.println(e);
+			return null;
+		}
+	}
+	
+	@DeleteMapping("users/{id}")
+	public void removeUserController(@PathVariable("id") String id) {
+		log.info("SERVER: getting user by id");
+		try {
+			serverService.removeUser(id);
+		} catch (UserNotFoundException e) {
+			log.warn("SERVER: user not found");
+		} 
+	}
+	
 	@PostMapping("/login")
-	public MyTaskUser loginUserAccount(@RequestBody List<String> vals ) {
+	public MyTaskUser loginUserController(@RequestBody List<String> vals ) {
 		log.info("SERVER: attempting user login");
 		try {
-			MyTaskUser user = serverService.login(vals.get(0), vals.get(1));
-			return user;
+			String userName = vals.get(0);
+			String userPass = vals.get(1);
+			return serverService.login(userName, userPass);
 		} catch (UserNotFoundException e) {
 			log.warn("SERVER: user not found");
 			return null;

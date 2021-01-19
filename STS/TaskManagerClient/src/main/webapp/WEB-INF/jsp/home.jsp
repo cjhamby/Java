@@ -7,7 +7,7 @@
 <title>Task Manager</title>
 </head>
 <body>
-Welcome To Task Manager Client
+Welcome To Task Manager Client<br/>
 <a href="/login">Login</a><br/>
 <a href="/register">Register a new account</a>
 </body>
