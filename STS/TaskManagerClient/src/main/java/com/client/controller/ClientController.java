@@ -1,9 +1,7 @@
 package com.client.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +17,16 @@ import com.client.service.WebClientService;
 
 import lombok.extern.log4j.Log4j2;
 
+
+
+/*
+ * don't quote me on this, but in my understanding,
+ * the model is kind of a container to send data between controller and view
+ * the model has a view name (by default, the string it returns)
+ * model attributes are shorter lived (i.e. go to the view and then disappear)
+ * 
+ * see below for how to use model and session
+ */
 @Log4j2
 @Controller
 public class ClientController {
@@ -33,6 +41,9 @@ public class ClientController {
 		return "login";
 	}
 
+	/*
+	 * creates an empty task object to be populated and returned by the user
+	 */
 	@GetMapping("/addTask")
 	public String addNewTaskView(Model model) {
 		model.addAttribute("newTask", new MyTask());
@@ -44,15 +55,21 @@ public class ClientController {
 		model.addAttribute("task", task);
 		return "update";
 	}
-	
+
 	@GetMapping("/userHome")
 	public ModelAndView goToUserHome( Model model ) {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("userhome");
+		ModelAndView mv = new ModelAndView();			// demonstrates how to use ModelAndView
+		mv.setViewName("userhome");						// functionally equivalent to the method below
 		mv.addObject("task", new MyTask());
-		//mv.addAllObjects(model.asMap());	// retain model objects
 		return mv;
 	}
+	
+//	functionally equivalent to the above method
+//
+//	public String goToUserHome(Model model) {
+//		model.addObject("task", new MyTask());
+//		return "userhome";
+//	}
 	
 	// --- post methods --- 
 	@PostMapping("/register")
@@ -62,6 +79,11 @@ public class ClientController {
 		return "home";
 	}
 	
+	
+	/*
+	 * the login and logout methods access the underlying HttpSession
+	 * to access it, just include it as an argument for the method
+	 */
 	@PostMapping("/login")
 	public String loginUser(@RequestParam("name") String name, 
 							@RequestParam("pass") String pass,
@@ -100,28 +122,35 @@ public class ClientController {
 	 */
 	
 	@PostMapping("/addTask")
-	public String addNewTask( @ModelAttribute("newTask") MyTask newTask, @SessionAttribute("user") MyTaskUser user, HttpSession session ) {
+	public String addNewTask( @ModelAttribute("newTask") MyTask newTask, 
+							  @SessionAttribute("user") MyTaskUser user, 
+							  HttpSession session ) {
 		user = WebClientService.addTaskToUser(user, newTask);
 		session.setAttribute("user", user);
 		return "redirect:/userHome";
 	}
 	
 	@PostMapping("/modify")
-	public String modifyTask(@ModelAttribute("task") MyTask task, @SessionAttribute("user") MyTaskUser user, HttpSession session) {
+	public String modifyTask(@ModelAttribute("task") MyTask task, 
+							 @SessionAttribute("user") MyTaskUser user, 
+							 HttpSession session) {
 		user = WebClientService.updateTask(user, task);
 		session.setAttribute("user", user);
 		return "redirect:/userHome";
 	}
 	
 	@PostMapping("/remove")
-	public String removeTask(@ModelAttribute("task") MyTask task, @SessionAttribute("user") MyTaskUser user, HttpSession session) {
+	public String removeTask(@ModelAttribute("task") MyTask task, 
+							 @SessionAttribute("user") MyTaskUser user, 
+							 HttpSession session) {
 		user = WebClientService.removeTaskFromUser(user, task);
 		session.setAttribute("user", user);
 		return "redirect:/userHome";
 	}
 	
 	@GetMapping("/addTestTask")
-	public String addDemoTask( HttpSession session, @SessionAttribute("user") MyTaskUser user ) {
+	public String addDemoTask( HttpSession session, 
+							   @SessionAttribute("user") MyTaskUser user ) {
 		MyTask newTask = new MyTask();
 		newTask.setTaskName("DEMO TASK");
 		newTask.setTaskDesc("a test task");
