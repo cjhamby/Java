@@ -1,0 +1,20 @@
+[
+	{
+		"_class": "com.app.dao.CD",
+		"productCost":	"15",
+		"productTitle":	"Songs of My People",
+		"productMaker": "The Peoples",
+		"productImage": "#",
+		"band": "The Peoples",
+		"genre": "sing-songy"
+	},
+	{
+		"_class": "com.app.dao.CD",
+		"productCost":	"15",
+		"productTitle":	"Songs of Other People",
+		"productMaker": "The Song Thiefs",
+		"productImage": "#",
+		"band": "The Song Thiefs",
+		"genre": "stolen"
+	}
+]

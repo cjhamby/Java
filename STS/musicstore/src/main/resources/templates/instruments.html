@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/myheader::headTag">
+</head>
+<body>
+<div th:replace="fragments/myheader::myNavbar"></div>
+
+<div class="container">
+	<h3 class="text-center">Instruments for Sale</h3>
+	
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Instrument</th>
+				<th>Model</th>
+				<th>Manufacturer</th>
+				<th>Photo</th>
+				<th>Price</th>
+				<th>Store Page</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="product: ${products}">
+				<td th:text="${product.productTitle}"></td>
+				<td th:text="${product.InstrumentModel}"></td>
+				<td th:text="${product.productMaker}"></td>
+				<td><img class="my_product_thumbnail" th:src="${product.productImage}" alt="no image"/></td>
+				<td th:text="${product.productCost}"></td>
+				<td>
+						<form method="POST" th:action="@{/store/addToCart}">
+							<input type="hidden" name="productId" th:value="${product.productId}" />
+							<input type="hidden" name="productType" value="instrument" />
+							<input type="submit" class="btn btn-primary" value="Add To Cart" />
+							
+						</form>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+		
+		
+		<!-- NAVIGATION FOR PAGES -->
+	<nav aria-label="Instrument Navigation">
+		<ul class="pagination">
+			<!-- Previous page button -->
+			<li class="page-item">
+				<div th:if="${page > 0}">
+					<form action="/store/instruments/nav" method="GET">
+						<input type="hidden" name="page" th:value="${page-1}" />
+						<input type="submit" value="Previous" class="page-link">
+					</form>
+				</div>
+				<div th:if="${page == 0}">
+					<button class="page-link disabled" disabled>Previous</button>
+				</div>
+			</li>
+			
+			<!-- Next page button -->
+			<li class="page-item">
+				<div th:if="${morePages}">
+					<form action="/store/instruments/nav" method="GET">
+						<input type="hidden" name="page" th:value="${page + 1}" />
+						<input type="submit" value="Next" class="page-link">
+					</form>
+				</div>
+				<div th:if="${!morePages}">
+					<button class="page-link disabled" disabled>Next</button>
+				</div>
+			</li>
+		</ul>
+	</nav>
+</div>
+</body>
+</html>

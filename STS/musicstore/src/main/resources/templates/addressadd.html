@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/myheader::headTag"></head>
+<body>
+<div th:replace="fragments/myheader::myNavbar"></div>
+<div class="container">
+<h3 class="text-center">Add a New Address</h3>
+	<div class="container w-50">
+		<form th:action="@{/user/address/add}" method="post" th:object="${address}">
+			Name: <input type="text" name="fullname" /><br/>
+			Street: <input type="text" name="street" /><br/>
+			City: <input type="text" name="city" /><br/>
+			State: <input type="text" name="state" /><br/>
+			Zip: <input type="text" name="zip" /><br/>
+			<input type="submit" value="submit" />
+			
+		
+		</form>
+	</div>
+</div>
+</body>
+</html>

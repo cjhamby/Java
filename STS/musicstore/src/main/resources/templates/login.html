@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/myheader::headTag">
+</head>
+<body>
+<div th:replace="fragments/myheader::myNavbar"></div>
+
+<div class="container">
+<h3 class="text-center">Log Into Your Account</h3>
+	<div class="container w-50">
+		<form action="/login" th:action="@{/login}" id="loginForm"  method="POST">
+			<div class="error_message" th:if="${param.error}">Invalid username and password</div>
+			<label for="username">Username: </label>
+			<input class="form-control" type="text" name="username" />
+			<br/>
+			<label for="password">Password: </label>
+			<input class="form-control" type="password" name="password" />
+			<br/>
+			<input class="btn btn-dark text-light" type="submit" value="Login" />
+		</form>
+		<br/>
+	<a class="text-center" href="/register">don't have an account? register here</a>
+	</div>
+</div>
+</body>
+</html>

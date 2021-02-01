@@ -1,0 +1,11 @@
+@charset "ISO-8859-1";
+
+
+.error_message {
+	color: red;
+}
+
+.my_product_thumbnail {
+	max-width: 200px;
+	height: auto;
+}

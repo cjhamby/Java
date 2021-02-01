@@ -1,0 +1,56 @@
+[
+	{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Acoustic Guitar",
+		"productMaker": "Martin",
+		"productImage": "https://static.sonovente.com/img/library/zoom/51/optim/51133_1.jpg",
+		"instrumentModel": "M123",
+		"instrumentCondition": "New"
+	},
+	{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Digital Piano",
+		"productMaker": "Yamaha",
+		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
+		"instrumentModel": "P515",
+		"instrumentCondition": "New"
+	},
+		{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Digital Piano",
+		"productMaker": "Yamaha",
+		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
+		"instrumentModel": "P515",
+		"instrumentCondition": "New"
+	},
+		{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Digital Piano",
+		"productMaker": "Yamaha",
+		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
+		"instrumentModel": "P515",
+		"instrumentCondition": "New"
+	},
+		{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Digital Piano",
+		"productMaker": "Yamaha",
+		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
+		"instrumentModel": "P515",
+		"instrumentCondition": "New"
+	},
+		{
+		"_class": "com.app.dao.Instrument",
+		"productCost":	"$500.00",
+		"productTitle":	"Digital Piano",
+		"productMaker": "Yamaha",
+		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
+		"instrumentModel": "P515",
+		"instrumentCondition": "New"
+	}
+]
