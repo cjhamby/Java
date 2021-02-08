@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head th:replace="fragments/myheader::headTag"></head>
+<body>
+<div th:replace="fragments/myheader::myNavbar"></div>
+<div class="container">
+<h3 class="text-center">Change Address</h3>
+	<div class="container w-50">
+		<form th:action="@{/user/address/modify}" method="post" th:object="${address}">
+			<label for="fullname">Name </label>
+			<input type="text" class="form-control" name="fullname" th:value="${address.fullname}" />
+			<br/>
+			<label for="street">Street </label>
+			<input type="text" class="form-control" name="street" th:value="${address.street}" />
+			<br/>
+			<label for="city">City </label>
+			<input type="text" class="form-control" name="city" th:value="${address.city}" />
+			<br/>
+			<label for="state">State </label>
+			<input type="text" class="form-control" name="state" th:value="${address.state}" />
+			<br/>
+			<label for="zip">ZIP </label>
+			<input type="text" class="form-control" name="zip" th:value="${address.zip}" />
+			<br/>
+			<label for="phone">Phone Number </label>
+			<input type="text" class="form-control" name="phone" th:value="${address.phone}" />
+			<br/>
+			<input class="btn btn-dark text-light" type="submit" value="Submit" />
+			
+		
+		</form>
+	</div>
+</div>
+</body>
+</html>

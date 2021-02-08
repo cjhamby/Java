@@ -2,41 +2,65 @@ package com.app.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
+import com.app.dao.CD;
 import com.app.dao.Instrument;
+import com.app.dao.Order;
 import com.app.dao.Product;
-import com.app.data.ProductRepository;
+import com.app.data.CDRepository;
+import com.app.data.InstrumentRepository;
+import com.exception.ProductNotFoundException;
 
 @Service
-public class ProductService<T extends Product> {
+public class ProductService {
+	@Autowired
+	private InstrumentRepository instrumentRepo;
 	
-	//TODO fix this or something
-	//@Autowired
-	//private ProductRepository<T> repository;
+	@Autowired
+	private CDRepository cdRepo;
 	
-	//TODO - items are currently added to the store via data sql files
-	public T addProductToStore(T newProduct) { 
-		return null;
-	};
-
-	//TODO - items are currently added to the store via data sql files
-	public void removeProductFromStore(int productId) {
-		
-	};
+	public List<Instrument> getInstruments() {
+		List<Instrument> instruments = new ArrayList<>();
+		instrumentRepo.findAll().forEach(instrument -> instruments.add(instrument));
+		return instruments;
+	}
 	
-	//TODO - remove the need to pass an argument to this 
-	public List<T> getProductsInStore(CrudRepository<T, Integer> repository) {
-		List<T> productList = new ArrayList<>();
-		repository.findAll().forEach(k -> {
-			productList.add((T)k);
-		});
-		return productList;
+	public List<CD> getCDs() {
+		List<CD> cds = new ArrayList<>();
+		cdRepo.findAll().forEach(cd -> cds.add(cd));
+		return cds;
 	}
 	
 	
+	public List<Product> getProductsInOrder(Order order)
+		throws ProductNotFoundException	{
+		
+		List<Product> products = new ArrayList<>();
+		for(int id: order.getProducts()) {
+			products.add((Product)(findProductById(id).get()));
+		}
+		return products;
+	}
 	
+	
+	public Optional<? extends Product> findProductById(int id) 
+			throws ProductNotFoundException {
+		
+		Optional <? extends Product> product;
+		
+		product = instrumentRepo.findById(id);
+		if(product.isPresent()) {
+			return product;
+		}
+		product = cdRepo.findById(id);
+		if(product.isPresent()) {
+			return product;
+		}
+		
+		throw new ProductNotFoundException();
+	}
 }

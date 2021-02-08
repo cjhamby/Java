@@ -1,5 +1,6 @@
 package com.app.dao;
 
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -13,18 +14,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
+@Embeddable
 public class Address {
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id;
-	
-	@OneToOne(mappedBy = "address")
-	private StoreAccount user;
 	private String fullname;
 	private String street;
 	private String city;

@@ -2,6 +2,7 @@ package com.app.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -19,30 +20,41 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.app.dao.CD;
 import com.app.dao.Cart;
 import com.app.dao.Instrument;
+import com.app.dao.Order;
 import com.app.dao.Product;
+import com.app.dao.StoreAccount;
 import com.app.data.CDRepository;
 import com.app.data.InstrumentRepository;
+import com.app.data.OrderRepository;
+import com.app.data.ProductRepository;
+import com.app.service.OrderService;
 import com.app.service.ProductService;
+import com.app.service.StoreAccountService;
 import com.exception.ProductNotFoundException;
 
 import lombok.extern.log4j.Log4j2;
 
+/*
+ * this controller handles 
+ * - navigating through the store, 
+ * - placing orders
+ * - misc. cart stuff
+ */
 @Controller
 @Log4j2
 public class StoreController {
 
-	/*
-	 * in an ideal world, the ProductServices would contain their relevant Repositories
-	 * however, this is a challenge for another day
-	 */
+	// the service for finding products 
 	@Autowired
-	private ProductService<Instrument> instrumentService;
+	private ProductService productService;
+	
+	// the service for finding store accounts
 	@Autowired
-	private InstrumentRepository instrumentRepo;
+	private StoreAccountService storeAccountService;
+	
+	// the service for placing orders
 	@Autowired
-	private ProductService<CD> cdService;
-	@Autowired
-	private CDRepository cdRepo;
+	private OrderService orderService;
 	
 	
 	@GetMapping("/store/addSuccess")
@@ -55,10 +67,54 @@ public class StoreController {
 		return "carthome";
 	}
 	
+	/*
+	 * the checkout page shows the order summary and has a few links for modifying the details
+	 */
 	@GetMapping("/store/checkout")
-	public String goToCheckoutPage() {
+	public String goToCheckoutPage(HttpSession session, Model model) {
+		StoreAccount account;
+		try {
+			String username = session.getAttribute("currentUser").toString();
+			if(username.equals(null)) {
+				throw new Exception("no one signed in");
+			}
+			account = (StoreAccount)storeAccountService.loadUserByUsername(username);
+		} catch (Exception e) {
+			return "redirect:/login";
+		}
 		
-		return "checkout";
+		
+		try {
+			model.addAttribute("address", account.getAddress()); 
+			return "checkout";
+		} catch (Exception e) {
+			return "redirect:/error";
+		}
+	}
+	
+	@GetMapping("/store/placeorder")
+	public String placeOrder(HttpSession session) {
+		try {
+			String username = session.getAttribute("currentUser").toString();
+			StoreAccount account = (StoreAccount)storeAccountService.loadUserByUsername(username);
+			Cart cart = (Cart)session.getAttribute("cart");
+
+			if(account.equals(null)) {
+				return "redirect:/login";
+			}
+			
+			if(cart.equals(null)) {
+				return "redirect:/error";
+			}
+			
+			orderService.placeOrder(username, cart, account.getAddress());
+			session.removeAttribute("cart");
+			return "ordersuccess";
+		} catch (Exception e) {
+			System.out.println(e);
+			return "redirect:/error";
+		}
+		
 	}
 	
 	/*
@@ -67,10 +123,7 @@ public class StoreController {
 	 * to add an item to the cart, post it to the cart
 	 */
 	@PostMapping("/store/addToCart")
-	public String addToCart(
-			@RequestParam("productType") String productType,
-			@RequestParam("productId") String productId,  
-			HttpSession session) {
+	public String addToCart( HttpSession session, @RequestParam("productId") String productId ) {
 		try {
 			Cart cart = (Cart)(session.getAttribute("cart"));
 			
@@ -80,20 +133,43 @@ public class StoreController {
 				session.setAttribute("cart", cart);
 			}
 			
-			log.info("finding product " + productId);
-			if(productType.equals("instrument")) {
-				log.info("finding instrument");
-				cart.addToCart(instrumentRepo.findById(Integer.parseInt(productId)).orElseThrow(ProductNotFoundException::new));
-			} else if (productType.equals("cd")) {
-				log.info("finding cd");
-				cart.addToCart(cdRepo.findById(Integer.parseInt(productId)).orElseThrow(ProductNotFoundException::new));
+			log.info("finding product " + productId);			
+			int pid = Integer.parseInt(productId);
+			
+			// the following works on the premise that instruments and cds will not share ID values
+			// check instrument repo, then check cd repo
+			
+			try {
+				cart.addToCart(productService.findProductById(pid).get());
+				return "addsuccess";
+				
+			} catch (ProductNotFoundException e) {
+				log.error("product not found");
+				return "redirect:/error";
 			}
-			return "redirect:/store/addSuccess";
 			
 		} catch (Exception e) {
 			log.debug(e);
-			return "redirect:/";
+			return "redirect:/error";
 		}
+	}
+	
+	@PostMapping("/store/removeFromCart")
+	public String removeFromCart(
+			@RequestParam("productId") String productId,
+			HttpSession session) {
+		try {
+			
+			Cart cart = (Cart)(session.getAttribute("cart"));
+			cart.removeFromCart(Integer.parseInt(productId));	
+			if(cart.getCartItems().size() == 0) {
+				session.removeAttribute("cart");
+			}
+			return "redirect:/store/cart";
+		} catch (Exception e) {
+			return "redirect:/error";
+		}
+		
 		
 	}
 	
@@ -115,13 +191,13 @@ public class StoreController {
 		}
 		
 		// a list of products in the store
-		List<Instrument> allProducts = instrumentService.getProductsInStore(instrumentRepo);
+		List<Instrument> allProducts = productService.getInstruments();
 		
 		// a list of products to be shown on the page
 		List<Instrument> products = new ArrayList<>();
 		
 		// how many items to show on a single page
-		int itemsPerPage = 5;
+		int itemsPerPage = 3;
 		
 		// create a selection group of products to show on the page
 		for(int i=0; i<itemsPerPage; i++) {
@@ -157,9 +233,9 @@ public class StoreController {
 		}
 		
 		List<CD> products = new ArrayList<>();
-		List<CD> allProducts = cdService.getProductsInStore(cdRepo);
+		List<CD> allProducts = productService.getCDs();
 		
-		int itemsPerPage = 5;
+		int itemsPerPage = 3;
 		for(int i=0; i<itemsPerPage; i++) {
 			int productIndex = page*itemsPerPage + i;
 			

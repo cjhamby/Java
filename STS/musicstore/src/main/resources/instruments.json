@@ -10,7 +10,7 @@
 	},
 	{
 		"_class": "com.app.dao.Instrument",
-		"productCost":	"$500.00",
+		"productCost":	"$1500.00",
 		"productTitle":	"Digital Piano",
 		"productMaker": "Yamaha",
 		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
@@ -19,38 +19,29 @@
 	},
 		{
 		"_class": "com.app.dao.Instrument",
-		"productCost":	"$500.00",
-		"productTitle":	"Digital Piano",
-		"productMaker": "Yamaha",
-		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
-		"instrumentModel": "P515",
+		"productCost":	"$200,000,000.00",
+		"productTitle":	"Violin",
+		"productMaker": "Stradivarius",
+		"productImage": "https://i.pinimg.com/originals/38/86/2f/38862ffe1193b1a745ebd941f50b208b.jpg",
+		"instrumentModel": "Messiah",
 		"instrumentCondition": "New"
 	},
 		{
 		"_class": "com.app.dao.Instrument",
-		"productCost":	"$500.00",
-		"productTitle":	"Digital Piano",
-		"productMaker": "Yamaha",
-		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
-		"instrumentModel": "P515",
+		"productCost":	"$30.00",
+		"productTitle":	"Bongo",
+		"productMaker": "Musicube",
+		"productImage": "https://images-na.ssl-images-amazon.com/images/I/61iLvPrtYTL._AC_SL1200_.jpg",
+		"instrumentModel": "Bongo",
 		"instrumentCondition": "New"
 	},
 		{
 		"_class": "com.app.dao.Instrument",
-		"productCost":	"$500.00",
-		"productTitle":	"Digital Piano",
-		"productMaker": "Yamaha",
-		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
-		"instrumentModel": "P515",
-		"instrumentCondition": "New"
-	},
-		{
-		"_class": "com.app.dao.Instrument",
-		"productCost":	"$500.00",
-		"productTitle":	"Digital Piano",
-		"productMaker": "Yamaha",
-		"productImage": "https://d1aeri3ty3izns.cloudfront.net/media/38/382401/600/preview_2.jpg",
-		"instrumentModel": "P515",
+		"productCost":	"$1000.00",
+		"productTitle":	"Clarinet",
+		"productMaker": "Jupiter",
+		"productImage": "https://images-na.ssl-images-amazon.com/images/I/51UhwmUsaiL._AC_SL1200_.jpg",
+		"instrumentModel": "JCL710N",
 		"instrumentCondition": "New"
 	}
 ]

@@ -1,14 +1,19 @@
 package com.app.dao;
 
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import lombok.Data;
 
-@MappedSuperclass
 @Data
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "PRODUCT_TYPE")
 public abstract class Product {
 	
 	@Id
@@ -18,5 +23,4 @@ public abstract class Product {
 	protected String productTitle;
 	protected String productMaker;
 	protected String productImage;
-
 }

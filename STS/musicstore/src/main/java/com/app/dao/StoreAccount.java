@@ -1,17 +1,13 @@
 package com.app.dao;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -41,11 +37,8 @@ public class StoreAccount implements UserDetails{
 	private String role;			// used by Spring Security to give authorization
 	
 	// an account can have a mailing, billing, etc. address
-	@OneToOne(cascade = CascadeType.ALL)
+	@Embedded
 	private Address address;
-		
-	//@Transient
-	//private Cart myCart;	// the cart is a session attribute (for now)
 	
 	public StoreAccount(String username, String email, String password, boolean isAdmin) {
 		this.username = username;

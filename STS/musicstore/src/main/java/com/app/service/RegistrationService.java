@@ -37,7 +37,6 @@ public class RegistrationService {
 		registerUser(new RegistrationDetails("user", "user@user.com", "user"));
 		
 		Address temp = new Address();
-		temp.setUser(accountRepo.findByUsername("admin"));
 		temp.setCity("cityville");
 		temp.setFullname("Adam Adamson");
 		temp.setPhone("123-345-5678");
@@ -46,7 +45,6 @@ public class RegistrationService {
 		temp.setZip("12345");
 		addAddressToUser("admin", temp);
 		
-		temp.setUser(accountRepo.findByUsername("user"));
 		temp.setFullname("Brianne Briannity");
 		addAddressToUser("user", temp);
 	}
@@ -54,9 +52,7 @@ public class RegistrationService {
 	
 	public void addAddressToUser(String username, Address address) {
 		StoreAccount user = accountRepo.findByUsername(username);
-		System.out.println("user; " + user);
 		user.setAddress(address);
-		System.out.println("user; " + user);
 		accountRepo.save(user); 
 	}
 	

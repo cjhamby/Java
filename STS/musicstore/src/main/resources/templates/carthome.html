@@ -21,7 +21,6 @@
 						<td>
 							<form method="POST" th:action="@{/store/removeFromCart}">
 								<input type="hidden" name="productId" th:value="${product.productId}" />
-								<input type="hidden" name="productType" value="instrument" />
 								<input type="submit" class="btn btn-primary" value="Remove" />
 							</form>
 						</td>

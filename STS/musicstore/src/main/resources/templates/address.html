@@ -6,13 +6,18 @@
 <div class="container">
 <h3 class="text-center">Manage Addresses</h3>
 	<div class="container w-50">
-		<div th:if="${session.addresses != null}">
-			<div th:each="address: {session.addresses}">
-				This is your address: (TODO)
-			</div>
+		<div th:with="address = ${address}">
+				<h4>Shipping Address</h4>
+				<br/>
+				<div th:text="${address.fullname}"></div>
+				<div th:text="${address.street}"></div>
+				<span th:text="${address.city}"></span>, <span th:text="${address.state}"></span> <span th:text="${address.zip}"></span>
+				<br/>
+				<div th:text="${address.phone}"></div>
+				<br/>
+				<a href="/user/address/modify">Update Address</a>
 		</div>
 	</div>
-	<a href="/user/address/add">Update Address</a>
 </div>
 </body>
 </html>

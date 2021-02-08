@@ -4,7 +4,7 @@
 <body>
 	<div th:replace="fragments/myheader::myNavbar"></div>
 	<div class="container">
-		<h3 class="text-center">Checkout Page</h3>
+		<h3 class="text-center">Order Details</h3>
 		<div class="container w-50">
 			<div th:with="address = ${address}">
 				<h4>Shipping Address</h4>
@@ -22,39 +22,30 @@
 				Ehhhh don't worry, it's on us this time
 			</div>
 			<br/>
-			<div th:with="cart = ${session.cart}">
-				<h4>Order Details</h4>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Item</th>
-							<th>Cost</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="product: ${session.cart.cartItems}">
-							<td th:text="${product.productTitle}"></td>
-							<td th:text="${product.productCost}"></td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
+			<h4>Order Details</h4>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Item</th>
+						<th>Cost</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="product: ${products}">
+						<td th:text="${product.productTitle}"></td>
+						<td th:text="${product.productCost}"></td>
+					</tr>
+				</tbody>
+			</table>
 			
 			<br/> 
-			<a href="/store/cart">
-				<button class="btn btn-primary">Return to Cart</button>
+			<a href="/user/orders">
+				<button class="btn btn-primary">Return to Orders</button>
 			</a>
 			<br/>
 			<br/>
-			<a href="/user/address/modify">
-				<button	class="btn btn-primary">Update Address</button>
-			</a>
-			<br/>
-			<br/>
-			<br/>
-			<br/>
-			<a href="/store/placeorder">
-				<button class="btn btn-danger">Place Order</button>
+			<a href="/user/home">
+				<button	class="btn btn-primary">Return to User Home</button>
 			</a>
 		</div>
 	</div>

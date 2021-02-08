@@ -1,5 +1,6 @@
 package com.app.dao;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper=false)		// don't call these methods from super
+@DiscriminatorValue("CD")
 public class CD extends Product {
 	
 	// most information is covered by the parent class, Product
