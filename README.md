@@ -1,4 +1,4 @@
 # Java
-My humble java collection.  Several of these projects are the result of my attempts to find modern best practices for code. 
+My humble java collection.  
 
-Organization is an ongoing process :-)
+Organization and finding modern best practices are ongoing processes :-)
